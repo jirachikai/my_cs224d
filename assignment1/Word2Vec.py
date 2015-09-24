@@ -2,6 +2,7 @@
 import numpy as np
 import random
 from Softmax import softmax
+from NeuralNetworkBasics import sigmoid,sigmoid_grad,gradcheck_naive
 
 # Interface to the dataset for negative sampling
 dataset = type('dummy', (), {})()
@@ -22,7 +23,7 @@ def softmaxCostAndGradient(predicted, target, outputVectors):
     # entropy loss.                                                   #
     # Inputs:                                                         #
     #   - predicted: numpy ndarray, predicted word vector (\hat{r} in #
-    #           the written component) (V_wi)                                #
+    #           the written component) (V_wi)                         #
     #   - target: integer, the index of the target word               #
     #   - outputVectors: "output" vectors for all tokens              #
     # Outputs:                                                        #
@@ -38,8 +39,9 @@ def softmaxCostAndGradient(predicted, target, outputVectors):
 
     ### YOUR CODE HERE
     V, D = outputVectors.shape
-    score = softmax(outputVectors.dot(predicted))
-    cost = -np.log(score[target])
+
+    scores = softmax(outputVectors.dot(predicted).reshape(1,V)).reshape(V,)
+    cost = -np.log(scores[target])
 
     labels = np.zeros(V)
     labels[target] = 1
@@ -65,7 +67,27 @@ def negSamplingCostAndGradient(predicted, target, outputVectors, K=10):
     ###################################################################
 
     ### YOUR CODE HERE
+    sampleIndexs = []
+    while True:
+        index = dataset.sampleTokenIdx()
+        if index != target:
+            sampleIndexs.append(index)
+        if len(sampleIndexs)>=K:
+            break
+#    for i in xrange(K):
+#        index = dataset.sampleTokenIdx()
+#        sampleIndexs.append(index)
 
+    sampleVectors = outputVectors[sampleIndexs, :]
+    w_r_out = sigmoid(outputVectors[target].dot(predicted))
+    w_r_k = sigmoid(- sampleVectors.dot(predicted))
+    cost = -np.log(w_r_out)-np.sum(np.log(w_r_k))
+
+    gradPred = outputVectors[target] * ( w_r_out - 1 ) + (1 - w_r_k).dot(sampleVectors)
+    grad = np.zeros(outputVectors.shape)
+    grad[target] = predicted *(w_r_out - 1)
+    for i in xrange(K):
+        grad[sampleIndexs[i]] += predicted * (1 - w_r_k)[i]
     ### END YOUR CODE
 
     return cost, gradPred, grad
@@ -96,7 +118,16 @@ def skipgram(currentWord, C, contextWords, tokens, inputVectors, outputVectors, 
     ###################################################################
 
     ### YOUR CODE HERE
-
+    currentWordIndex = tokens[currentWord]
+    predicted = inputVectors[currentWordIndex]
+    cost = 0.0
+    gradIn = np.zeros(inputVectors.shape)
+    gradOut = np.zeros(outputVectors.shape)
+    for word in contextWords:
+        _cost, _gradPred, _grad = word2vecCostAndGradient(predicted,tokens[word],outputVectors)
+        cost += _cost
+        gradIn[currentWordIndex] += _gradPred
+        gradOut += _grad
     ### END YOUR CODE
 
     return cost, gradIn, gradOut
@@ -112,7 +143,16 @@ def cbow(currentWord, C, contextWords, tokens, inputVectors, outputVectors, word
     ###################################################################
 
     ### YOUR CODE HERE
-
+    currentWordIndex = tokens[currentWord]
+    predicted = outputVectors[currentWordIndex]
+    cost = 0.0
+    gradIn = np.zeros(inputVectors.shape)
+    gradOut = np.zeros(outputVectors.shape)
+    for word in contextWords:
+        _cost, _gradPred, _grad = word2vecCostAndGradient(predicted,tokens[word],inputVectors)
+        cost += _cost
+        gradOut[currentWordIndex] += _gradPred
+        gradIn += _grad
     ### END YOUR CODE
 
     return cost, gradIn, gradOut
@@ -120,9 +160,9 @@ def cbow(currentWord, C, contextWords, tokens, inputVectors, outputVectors, word
 # Implement a function that normalizes each row of a matrix to have unit length
 def normalizeRows(x):
     """ Row normalization function """
-
     ### YOUR CODE HERE
-
+    N = x.shape[0]
+    x /= np.sqrt(np.sum(x ** 2, axis=1)).reshape(N, 1)    
     ### END YOUR CODE
 
     return x
@@ -172,4 +212,3 @@ print skipgram("c", 3, ["a", "b", "e", "d", "b", "c"], dummy_tokens, dummy_vecto
 print skipgram("c", 1, ["a", "b"], dummy_tokens, dummy_vectors[:5,:], dummy_vectors[5:,:], negSamplingCostAndGradient)
 print cbow("a", 2, ["a", "b", "c", "a"], dummy_tokens, dummy_vectors[:5,:], dummy_vectors[5:,:])
 print cbow("a", 2, ["a", "b", "a", "c"], dummy_tokens, dummy_vectors[:5,:], dummy_vectors[5:,:], negSamplingCostAndGradient)
-  

@@ -27,12 +27,12 @@ def sigmoid_grad(f):
     return f
 
 # Check your sigmoid implementation
-x = np.array([[1, 2], [-1, -2]])
-f = sigmoid(x)
-g = sigmoid_grad(f)
-print "=== For autograder ==="
-print f
-print g
+#x = np.array([[1, 2], [-1, -2]])
+#f = sigmoid(x)
+#g = sigmoid_grad(f)
+#print "=== For autograder ==="
+#print f
+#print g
 
 # First implement a gradient checker by filling in the following functions
 def gradcheck_naive(f, x):
@@ -76,12 +76,12 @@ def gradcheck_naive(f, x):
     print "Gradient check passed!"
 
 # Sanity check for the gradient checker
-quad = lambda x: (np.sum(x ** 2), x * 2)
-
-print "=== For autograder ==="
-gradcheck_naive(quad, np.array(123.456))      # scalar test
-gradcheck_naive(quad, x = np.random.randn(3,))    # 1-D test
-gradcheck_naive(quad, np.random.randn(4,5))   # 2-D test
+#quad = lambda x: (np.sum(x ** 2), x * 2)
+#
+#print "=== For autograder ==="
+#gradcheck_naive(quad, np.array(123.456))      # scalar test
+#gradcheck_naive(quad, x = np.random.randn(3,))    # 1-D test
+#gradcheck_naive(quad, np.random.randn(4,5))   # 2-D test
 
 # Set up fake data and parameters for the neural network
 N = 20
@@ -135,5 +135,5 @@ def forward_backward_prop(data, labels, params):
     return cost, grad
 
 # Perform gradcheck on your neural network
-print "=== For autograder ==="
-gradcheck_naive(lambda params: forward_backward_prop(data, labels, params), params)
+#print "=== For autograder ==="
+#gradcheck_naive(lambda params: forward_backward_prop(data, labels, params), params)

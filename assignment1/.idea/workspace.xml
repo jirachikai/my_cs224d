@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/Word2Vec.py" line="71" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1e80e6f3-1e40-4766-9af9-70ae106d3a6c" name="Default" comment="" />
     <ignored path="assignment1.iws" />
@@ -44,7 +47,7 @@
       <file leaf-file-name="NeuralNetworkBasics.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/NeuralNetworkBasics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="27" selection-start="33" selection-end="61" vertical-scroll-proportion="0.0">
+            <state line="137" column="0" selection-start="4943" selection-end="5058" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -53,7 +56,7 @@
       <file leaf-file-name="Word2Vec.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Word2Vec.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="47" column="63" selection-start="2383" selection-end="2383" vertical-scroll-proportion="0.4918478">
+            <state line="74" column="45" selection-start="3660" selection-end="3660" vertical-scroll-proportion="-8.174148">
               <folding />
             </state>
           </provider>
@@ -103,7 +106,6 @@
     </navigator>
     <panes>
       <pane id="Favorites" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -138,13 +140,14 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
   </component>
-  <component name="RunManager" selected="Python.NeuralNetworkBasics">
+  <component name="RunManager" selected="Python.Word2Vec">
     <configuration default="false" name="setup" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -188,6 +191,22 @@
       <option name="IS_MODULE_SDK" value="true" />
       <module name="assignment1" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NeuralNetworkBasics.py" />
+      <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PythonRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Word2Vec" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <module name="assignment1" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Word2Vec.py" />
       <option name="PARAMETERS" value="" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
@@ -240,10 +259,11 @@
       <option name="PATTERN" value="" />
       <method />
     </configuration>
-    <list size="3">
+    <list size="4">
       <item index="0" class="java.lang.String" itemvalue="Python.setup" />
       <item index="1" class="java.lang.String" itemvalue="Python.Softmax" />
       <item index="2" class="java.lang.String" itemvalue="Python.NeuralNetworkBasics" />
+      <item index="3" class="java.lang.String" itemvalue="Python.Word2Vec" />
     </list>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
@@ -262,6 +282,7 @@
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
     <option name="FORCE_UPDATE" value="false" />
+    <configuration useDefault="true">C:\Users\Administrator.QH-20150325GQQX\AppData\Roaming\Subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
@@ -273,16 +294,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24962743" sideWeight="0.6746167" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20305908" sideWeight="0.6749729" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3253833" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32502708" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -343,21 +364,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Softmax.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="1108" selection-end="1268" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="23" column="0" selection-start="1108" selection-end="1268" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/NeuralNetworkBasics.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="27" selection-start="33" selection-end="61" vertical-scroll-proportion="0.0">
+        <state line="137" column="0" selection-start="4943" selection-end="5058" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Word2Vec.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="63" selection-start="2383" selection-end="2383" vertical-scroll-proportion="0.4918478">
+        <state line="74" column="45" selection-start="3660" selection-end="3660" vertical-scroll-proportion="-8.174148">
           <folding />
         </state>
       </provider>
