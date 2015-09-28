@@ -64,14 +64,14 @@ class WindowMLP(NNBase):
 
         random.seed(rseed) # be sure to seed this for repeatability!
         #### YOUR CODE HERE ####
-
         # any other initialization you need
+        self.sparams.L = wv.copy()
+        self.params.U = random_weight_matrix(*self.params.U.shape)
+        self.params.W = random_weight_matrix(*self.params.W.shape)
 
-
-
+        self.windowsize = windowsize
+        self.word_vec_size = wv.shape[1]
         #### END YOUR CODE ####
-
-
 
     def _acc_grads(self, window, label):
         """
@@ -89,17 +89,25 @@ class WindowMLP(NNBase):
         self.sgrads.L[i] = (gradient dJ/dL[i]) # this adds an update for that index
         """
         #### YOUR CODE HERE ####
-
         ##
         # Forward propagation
-
+        x = hstack(self.sparams.L[window, :])
+        h = tanh(2*(self.params.W.dot(x)+self.params.b1))
+        p = softmax(self.params.U.dot(h)+self.params.b2)
         ##
+        y = make_onehot(label, 5)
+        delta = p - y
         # Backpropagation
+        self.grads.U += outer(delta, h) + self.lreg * self.params.U
+        self.grads.b2 += delta
+        gradh = dot(self.params.U.T,delta) * (1-h**2)
+        self.grads.W += outer(gradh, x) + self.lreg * self.params.W
+        self.grads.b1 += gradh
 
-
-
+        dL = self.params.W.T.dot(gradh).reshape(self.window_size, self.word_vec_size)
+        for i in xrange(self.window_size):
+            self.sgrads.L[window[i], :] = dL[i]
         #### END YOUR CODE ####
-
 
     def predict_proba(self, windows):
         """
@@ -117,11 +125,13 @@ class WindowMLP(NNBase):
             windows = [windows]
 
         #### YOUR CODE HERE ####
-
-
+        P = []
+        for i,window in enumerate(windows):
+            x = hstack(self.sparams.L[window, :])
+            P.append(softmax(self.params.U.dot(tanh(self.params.W.dot(x) + self.params.b1))+ self.params.b2))
         #### END YOUR CODE ####
 
-        return P # rows are output for each input
+        return array(P) # rows are output for each input
 
 
     def predict(self, windows):
@@ -132,8 +142,8 @@ class WindowMLP(NNBase):
         """
 
         #### YOUR CODE HERE ####
-
-
+        P = self.predict_proba(windows)
+        c = argmax(P, axis=1)
         #### END YOUR CODE ####
         return c # list of predicted classes
 
@@ -146,7 +156,14 @@ class WindowMLP(NNBase):
         """
 
         #### YOUR CODE HERE ####
-
-
+        J = 0
+        for i,window in enumerate(windows):
+            x = hstack(self.sparams.L[window, :])
+            p = softmax(self.params.U.dot(tanh(self.params.W.dot(x) + self.params.b1))+ self.params.b2)
+            J += -1*log(p[labels[i]]) # cross-entropy loss
+        J += (self.lreg / 2.0) * (sum(self.params.W**2.0) + sum(self.params.U**2.0))
         #### END YOUR CODE ####
         return J
+
+    def sigmoid(self,x):
+        return 1.0/(1+exp(-x))

@@ -101,3 +101,7 @@ class SoftmaxRegression(NNBase):
         """Predict most likely class."""
         P = self.predict_proba(idx)
         return argmax(P, axis=1)
+
+
+#sr = SoftmaxRegression(wv=zeros((10,100)), dims=(100,5))
+#sr.grad_check(x=5, y=4)
