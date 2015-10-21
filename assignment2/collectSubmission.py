@@ -240,7 +240,7 @@ if len(files_missing) > 0:
     if not prompt("Continue submission anyway?"):
         sys.exit(1)
 
-##
+##  
 # Prepare submission zip
 from zipfile import ZipFile
 

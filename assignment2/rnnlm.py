@@ -5,7 +5,7 @@ import sys
 
 # Import NN utils
 from nn.base import NNBase
-from nn.math import softmax, sigmoid
+from nn.math import softmax, sigmoid,make_onehot
 from nn.math import MultinomialSampler, multinomial_sample
 from misc import random_weight_matrix
 
@@ -29,12 +29,11 @@ class RNNLM(NNBase):
         alpha : default learning rate
         bptt : number of backprop timesteps
     """
-
     def __init__(self, L0, U0=None,
                  alpha=0.005, rseed=10, bptt=1):
-
         self.hdim = L0.shape[1] # word vector dimensions
         self.vdim = L0.shape[0] # vocab size
+        self.bptt = bptt
         param_dims = dict(H = (self.hdim, self.hdim),
                           U = L0.shape)
         # note that only L gets sparse updates
@@ -47,11 +46,16 @@ class RNNLM(NNBase):
         # Initialize word vectors
         # either copy the passed L0 and U0 (and initialize in your notebook)
         # or initialize with gaussian noise here
-
         # Initialize H matrix, as with W and U in part 1
-
+        self.alpha = alpha
+        self.rseed = rseed
+        self.sparams.L = L0.copy()
+        if U0 is None:
+            self.params.U = random.normal(0,0.1,self.params.U.shape)
+        else:
+            self.params.U = U0.copy()
+        self.params.H = random_weight_matrix(*self.params.H.shape)
         #### END YOUR CODE ####
-
 
     def _acc_grads(self, xs, ys):
         """
@@ -92,21 +96,27 @@ class RNNLM(NNBase):
         hs = zeros((ns+1, self.hdim))
         # predicted probas
         ps = zeros((ns, self.vdim))
-
         #### YOUR CODE HERE ####
 
         ##
-        # Forward propagation
-
-
+       # Forward propagation
+        for t in xrange(ns):
+            hs[t] = sigmoid(self.params.H.dot(hs[t - 1]) + self.sparams.L[xs[t]])
+            ps[t] = softmax(self.params.U.dot(hs[t]))
         ##
         # Backward propagation through time
+        for t in xrange(ns):
+            y_t = make_onehot(ys[t], self.vdim)
+            delta_t = ps[t] - y_t
+            self.grads.U += outer(delta_t, hs[t])
 
-
-
+            delta = self.params.U.T.dot(delta_t) * hs[t] * (1 - hs[t])
+            for i in xrange(t, t - self.bptt - 1, -1):
+                if i - 1 > -1:
+                    self.grads.H += outer(delta, hs[i - 1])
+                    self.sgrads.L[xs[i]] = delta
+                    delta = dot(self.params.H.T, delta) * hs[i - 1] * (1 - hs[i - 1]) 
         #### END YOUR CODE ####
-
-
 
     def grad_check(self, x, y, outfd=sys.stderr, **kwargs):
         """
@@ -135,10 +145,16 @@ class RNNLM(NNBase):
         compute cross-entropy loss at each timestep,
         and return the sum of the point losses.
         """
-
         J = 0
         #### YOUR CODE HERE ####
-
+        ns = len(xs)
+        hs = zeros((ns+1, self.hdim))
+        ps = zeros((ns, self.vdim))
+        # Forward propagation
+        for t in xrange(ns):
+            hs[t] = sigmoid(self.params.H.dot(hs[t - 1]) + self.sparams.L[xs[t]])
+            ps[t] = softmax(self.params.U.dot(hs[t]))
+            J += - log(ps[t][ys[t]])
 
         #### END YOUR CODE ####
         return J
@@ -168,7 +184,7 @@ class RNNLM(NNBase):
         return J / float(ntot)
 
 
-    def generate_sequence(self, init, end, maxlen=100):
+    def generate_sequence(self, init, end, maxlen=100): #prediction
         """
         Generate a sequence from the language model,
         by running the RNN forward and selecting,
@@ -197,12 +213,20 @@ class RNNLM(NNBase):
         ys = [init] # emitted sequence
 
         #### YOUR CODE HERE ####
-
-
+        ns = maxlen
+        hs = zeros((ns+1, self.hdim))
+        # predicted probas
+        ps = zeros((ns, self.vdim))
+        for t in xrange(maxlen):
+            hs[t] = sigmoid(self.params.H.dot(hs[t - 1]) + self.sparams.L[ys[t]])
+            ps = softmax(self.params.U.dot(hs[t]))
+            y = multinomial_sample(ps)
+            ys.append(y)
+            J += - log(ps[y])
+            if y == end:
+                break
         #### YOUR CODE HERE ####
         return ys, J
-
-
 
 class ExtraCreditRNNLM(RNNLM):
     """
